@@ -7,9 +7,9 @@
 
 Paper: TBA \
 BibTeX: TBA \
-Website: TBA
+Website: TBA 
 
-![image](./images/teaser.svg)
+<img src="./images/teaser.svg" alt="Teaser" style="width:1200px; height:auto;">
 
 # Installation
 This code has been tested on Windows® 11 Pro and Ubuntu 24.04. The hardware setup is based on a Intel i9-14900KF CPU, 64 GB of RAM, NVIDIA GeForce RTX 4080 Super GPU with 16 GB of dedicated memory. The code runs on Python 3.11.5 with PyTorch 2.4.1, CUDA 11.8, PyTorch Geometric 2.6.1, Chamferdist 1.0.3, GurobiPy 11.0.3.
