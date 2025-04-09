@@ -3,7 +3,6 @@ import bpy
 import matplotlib
 import pymeshlab
 import numpy as np
-from scipy.ndimage import median
 from optim.beam_recycle_net_optimizer import BeamRecycleNetOptimizer
 from options.recycle_optimizer_options import RecycleOptimizerOptions
 from utils.figure_utils import draw_curves, draw_histograms, find_min_max_deflections_energy, render_models, draw_structural_hists, render_all, render_all_wireframe, jpg_convert, scatter_plot

@@ -9,6 +9,9 @@ __pycache__/
 # Vscode launch.json
 .vscode/
 
+# Output folder
+output/
+
 # Distribution / packaging
 .Python
 build/

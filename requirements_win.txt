@@ -1,0 +1,22 @@
+# Pymeshlab
+pymeshlab==2023.12.post3
+
+# Other dependencies
+bpy==4.4.0
+chamferdist==1.0.3
+gurobipy==11.0.0
+libigl==2.5.1
+torch_geometric==2.6.1
+
+# Additional components for PyTorchGeometric
+torch_scatter
+torch_sparse 
+torch_cluster 
+torch_spline_conv
+
+# torchaudio and torchvision
+torchaudio==2.5.0
+torchvision==0.20.0
+
+# Source link
+-f https://data.pyg.org/whl/torch-2.5.0+cu124.html

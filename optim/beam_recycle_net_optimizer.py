@@ -1,6 +1,7 @@
 import torch
 import math
 import time
+import platform
 import numpy as np
 import matplotlib.cm as cm
 from optim.structural_calculus import StructuralCalculus
@@ -9,8 +10,16 @@ from optim.beam_batch_recycle_loss import BeamBatchRecycleLoss
 from models.networks import DisplacerNet
 from utils.utils import save_mesh, map_to_color_space, export_vector
 from utils.mesh_sampling_utils import sample_points_from_mesh
-from chamferdist import ChamferDistance
 from utils.reproducible_chamfer_distance import repr_chamfer_distance
+
+# Importing chamfer distance function according to the platform.
+if platform.system() == 'Windows':
+    from chamferdist import ChamferDistance
+elif platform.system() == 'Linux':
+    from pytorch3d.loss import chamfer_distance
+else:
+    raise ValueError("Unsupported chamfer distance in: " + platform.system())
+
 
 def angle_penalty(angles, threshold, k=100):
     return torch.sum(torch.exp(-k*(angles[angles < threshold] - threshold[angles < threshold])) - 1)
@@ -93,7 +102,8 @@ class BeamRecycleNetOptimizer:
         self.structural_optimizer = torch.optim.Adam(self.structural_displacer_net.parameters(), lr=self.lr, eps=1e-3)
 
         # Building Chamfer Distance function.
-        self.chamfer_dist_fn = ChamferDistance()
+        if platform.system() == 'Windows':
+            self.chamfer_dist_fn = ChamferDistance()
         self.chamfer_dist_scale_is_set = False
         self.face_area_variance_scale_is_set = False
 
@@ -296,7 +306,10 @@ class BeamRecycleNetOptimizer:
             if self.reproducible:
                 chamfer_dist = repr_chamfer_distance(reference_mesh_samples.squeeze(0), iteration_mesh_samples.squeeze(0), simmetrical=True)
             else:
-                chamfer_dist = self.chamfer_dist_fn(reference_mesh_samples, iteration_mesh_samples, bidirectional=True)
+                if platform.system() == 'Windows':
+                    chamfer_dist = self.chamfer_dist_fn(reference_mesh_samples, iteration_mesh_samples, bidirectional=True)
+                elif platform.system() == 'Linux':
+                    chamfer_dist = chamfer_distance(reference_mesh_samples, iteration_mesh_samples, batch_reduction='sum', point_reduction='sum')[0]
             print("\t Recycle it.", iteration, "\t Chamfer distance:", float(chamfer_dist))
 
             # Computing face area penalty.

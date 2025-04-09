@@ -917,6 +917,15 @@ def render_models(output_name, vmin_deflections, vmax_deflections, vmin_displace
     case_labels = [case for case in os.listdir(output_name) if case != 'remeshing_cases' and '.txt' not in case and '.pdf' not in case and '.png' not in case and '.jpg' not in case]
     case_labels_short = [case.rsplit('_', 2)[0] for case in case_labels]
 
+    for case in case_labels:
+        for current_file in os.listdir(os.path.join(output_name, case)):
+            if '[RGBA]batch_colors' in current_file:
+                v = np.loadtxt(os.path.join(output_name, case, current_file), delimiter=',')
+                for idx, row in enumerate(v):
+                    if (row == np.array([128, 128, 128, 255])).all():
+                        v[idx, :] = np.array([223, 223, 223, 255])
+                np.savetxt(os.path.join(output_name, case, current_file[:-4] + '_w.csv'), v, delimiter=',', fmt='%d')
+
     for idx, case in enumerate(case_labels):
         # Building cylinder-shpere mesh for the input.
         if platform.system() == 'Windows':
@@ -969,8 +978,8 @@ def render_models(output_name, vmin_deflections, vmax_deflections, vmin_displace
             command = "./cpp/draw_color_shell"
         arg1 = os.path.join(output_name, case, f'{case_labels_short[idx]}_0.ply')
         arg2 = os.path.join(output_name, case, 'edges.csv')
-        arg3 = os.path.join(output_name, case, f'[RGBA]batch_colors_{case_labels_short[idx]}_0.csv')
-        arg4 = os.path.join(output_name, case, f'batch_colors_{case_labels_short[idx]}.ply')
+        arg3 = os.path.join(output_name, case, f'[RGBA]batch_colors_{case_labels_short[idx]}_0_w.csv')
+        arg4 = os.path.join(output_name, case, f'batch_colors_{case_labels_short[idx]}_w.ply')
         arg5 = '0.08'
         subprocess.run(args=[command, arg1, arg2, arg3, arg4, arg5])
 
@@ -981,8 +990,8 @@ def render_models(output_name, vmin_deflections, vmax_deflections, vmin_displace
             command = "./cpp/draw_color_shell"
         arg1 = os.path.join(output_name, case, f'model_{case_labels_short[idx]}.ply')
         arg2 = os.path.join(output_name, case, 'edges.csv')
-        arg3 = os.path.join(output_name, case, f'[RGBA]batch_colors_end_{case_labels_short[idx]}.csv')
-        arg4 = os.path.join(output_name, case, f'batch_colors_end_{case_labels_short[idx]}.ply')
+        arg3 = os.path.join(output_name, case, f'[RGBA]batch_colors_end_{case_labels_short[idx]}_w.csv')
+        arg4 = os.path.join(output_name, case, f'batch_colors_end_{case_labels_short[idx]}_w.ply')
         arg5 = '0.08'
         subprocess.run(args=[command, arg1, arg2, arg3, arg4, arg5])
 

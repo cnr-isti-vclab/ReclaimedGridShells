@@ -1,7 +1,6 @@
 import torch
 import numpy as np
 import gurobipy as gp
-from models.layers.beam_matching_softmax_matrix import BeamMatchingSoftmaxMatrix
 
 
 # *** FOR TESTING PURPOSES ONLY: default batch and capacities. ***
