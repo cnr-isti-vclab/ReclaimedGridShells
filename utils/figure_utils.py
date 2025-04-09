@@ -2,6 +2,7 @@ from pathlib import Path
 import bpy
 import os
 import pymeshlab
+import platform
 import igl
 import numpy as np
 import torch
@@ -918,21 +919,30 @@ def render_models(output_name, vmin_deflections, vmax_deflections, vmin_displace
 
     for idx, case in enumerate(case_labels):
         # Building cylinder-shpere mesh for the input.
-        command = "./cpp/draw_shell.exe"
+        if platform.system() == 'Windows':
+            command = "./cpp/draw_shell.exe"
+        else:
+            command = "./cpp/draw_shell"
         arg1 = os.path.join(output_name, 'remeshing_cases', f'{case_labels_short[idx]}.ply')
         arg2 = os.path.join(output_name, case, f'{case_labels_short[idx]}_edges.ply')
         arg3 = '0.08'
         subprocess.run(args=[command, arg1, arg2, arg3])
 
         # Building cylinder-shpere mesh for the output. 
-        command = "./cpp/draw_shell.exe"
+        if platform.system() == 'Windows':
+            command = "./cpp/draw_shell.exe"
+        else:
+            command = "./cpp/draw_shell"
         arg1 = os.path.join(output_name, case, f'model_{case_labels_short[idx]}.ply')
         arg2 = os.path.join(output_name, case, f'model_{case_labels_short[idx]}_edges.ply')
         arg3 = '0.08'
         subprocess.run(args=[command, arg1, arg2, arg3])
 
         # Building energy cylinder-shpere mesh for the input.
-        command = "./cpp/draw_color_shell.exe"
+        if platform.system() == 'Windows':
+            command = "./cpp/draw_color_shell.exe"
+        else:
+            command = "./cpp/draw_color_shell"
         arg1 = os.path.join(output_name, case, f'{case_labels_short[idx]}_0.ply')
         arg2 = os.path.join(output_name, case, 'edges.csv')
         arg3 = os.path.join(output_name, case, f'[RGBA]energy_{case_labels_short[idx]}_0a.csv')
@@ -941,7 +951,10 @@ def render_models(output_name, vmin_deflections, vmax_deflections, vmin_displace
         subprocess.run(args=[command, arg1, arg2, arg3, arg4, arg5])
 
         # Building energy cylinder-shpere mesh for the output.
-        command = "./cpp/draw_color_shell.exe"
+        if platform.system() == 'Windows':
+            command = "./cpp/draw_color_shell.exe"
+        else:
+            command = "./cpp/draw_color_shell"
         arg1 = os.path.join(output_name, case, f'model_{case_labels_short[idx]}.ply')
         arg2 = os.path.join(output_name, case, 'edges.csv')
         arg3 = os.path.join(output_name, case, f'[RGBA]energy_end_{case_labels_short[idx]}_a.csv')
@@ -950,7 +963,10 @@ def render_models(output_name, vmin_deflections, vmax_deflections, vmin_displace
         subprocess.run(args=[command, arg1, arg2, arg3, arg4, arg5])
 
         # Building matching-colored cylinder-shpere mesh for the input.
-        command = "./cpp/draw_color_shell.exe"
+        if platform.system() == 'Windows':
+            command = "./cpp/draw_color_shell.exe"
+        else:
+            command = "./cpp/draw_color_shell"
         arg1 = os.path.join(output_name, case, f'{case_labels_short[idx]}_0.ply')
         arg2 = os.path.join(output_name, case, 'edges.csv')
         arg3 = os.path.join(output_name, case, f'[RGBA]batch_colors_{case_labels_short[idx]}_0.csv')
@@ -959,7 +975,10 @@ def render_models(output_name, vmin_deflections, vmax_deflections, vmin_displace
         subprocess.run(args=[command, arg1, arg2, arg3, arg4, arg5])
 
         # Building energy cylinder-shpere mesh for the output.
-        command = "./cpp/draw_color_shell.exe"
+        if platform.system() == 'Windows':
+            command = "./cpp/draw_color_shell.exe"
+        else:
+            command = "./cpp/draw_color_shell"
         arg1 = os.path.join(output_name, case, f'model_{case_labels_short[idx]}.ply')
         arg2 = os.path.join(output_name, case, 'edges.csv')
         arg3 = os.path.join(output_name, case, f'[RGBA]batch_colors_end_{case_labels_short[idx]}.csv')

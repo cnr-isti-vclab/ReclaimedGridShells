@@ -19,4 +19,4 @@ torchaudio==2.5.0
 torchvision==0.20.0
 
 # Source link
--f https://data.pyg.org/whl/torch-2.5.0+cu124.html
+-f https://data.pyg.org/whl/torch-2.4.1+cu121.html
