@@ -5,7 +5,7 @@
 <sup>b</sup>University of Pisa (Italy)
 
 
-Paper: [link](https://vcgdata.isti.cnr.it/Publications/2025/EG-ReclaimedGridShells/Optimizing%20Free-Form%20Grid%20Shells%20with%20Reclaimed%20Elements.pdf)
+Paper: [link](https://vcgdata.isti.cnr.it/Publications/2025/EG-ReclaimedGridShells/Optimizing%20Free-Form%20Grid%20Shells%20with%20Reclaimed%20Elements.pdf) \
 Website: [link](https://vcg.isti.cnr.it/publication/2025/ReclaimedGridShells/)
 
 <img src="./images/teaser.svg" alt="Teaser" style="width:1200px; height:auto;">
